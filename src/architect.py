@@ -9,10 +9,11 @@ from utils import *
 class Architect():
     def __init__(self):
         cook = Cook()
-        self.author_prompt = cook.retrieve_author_prompt()
-        self.referee_prompt = cook.retrieve_referee_prompt()
+        self.author_sys_prompt = cook.retrieve_author_prompt()
+        self.referee_sys_prompt = cook.retrieve_referee_prompt()
         
         self.prompter_finetune = LLM_tune(prompt_generator_model)
+        self.prompt_generator = LLM(self.prompter_finetune.get_model())
         
         self.businese_plan_writer = LLM(businese_plan_writer_model)
         self.businese_plan_referee = LLM(businese_plan_referee_model)
@@ -32,45 +33,46 @@ class Architect():
     def save_prompter(self):
         self.prompter_finetune.save_model(finetuned_model_path)
         
-    def make_prompts(self, keywords):
+    def make_prompt(self, user_input):
         self.prompt_generator.start_new_chat(prompt_generator_system_prompt)
-        prompt = self.prompt_generator.get_text_response(keywords)
+        prompt = self.prompt_generator.get_text_response(user_input)
         return prompt
     
     def retrieval(self, prompt):
         companyDB = VectorDB(company_DB_name)
-        companyDB_search_result = companyDB.search_DB()
+        companyDB_search_result = companyDB.search_DB(prompt)
         marketDB = VectorDB(market_DB_name)
-        marketDB_search_result = marketDB.search_DB()
-        self.chosen_chunk = companyDB_search_result + marketDB_search_result
+        marketDB_search_result = marketDB.search_DB(prompt)
+        chosen_chunk = companyDB_search_result + marketDB_search_result
+        return chosen_chunk
 
-    def write_businese_plan(self, prompt):
-        self.businese_plan_writer.start_new_chat(self.author_prompt)
-        plan = self.businese_plan_writer.get_text_response(
+    def write_businese_plan(self, prompt, chosen_chunk):
+        self.businese_plan_writer.start_new_chat(self.author_sys_prompt)
+        businese_plan = self.businese_plan_writer.get_text_response(
                                         prompt, 
-                                        chosen_chunks_page=self.chosen_chunk)
-        return plan
+                                        chosen_chunks_page=chosen_chunk)
+        return businese_plan
     
-    def crticize_businese_plan(self, businese_plan):
-        self.businese_plan_referee.start_new_chat(self.referee_prompt)
-        criticize = self.businese_plan_referee.get_text_response(
+    def evaluate_businese_plan(self, businese_plan, chosen_chunk):
+        self.businese_plan_referee.start_new_chat(self.referee_sys_prompt)
+        evaluation = self.businese_plan_referee.get_text_response(
                                                businese_plan, 
-                                               chosen_chunks_page=self.chosen_chunk)
-        return criticize
+                                               chosen_chunks_page=chosen_chunk)
+        return evaluation
     
-    def make_new_prompt(self, criticize, prompt):
+    def make_new_prompt(self, evaluation, prompt):
         self.prompt_improver.start_new_chat(prompt_improver_system_prompt)
         prompt = "**Prompt**" + prompt
-        criticize = "**Evaluation**" + criticize
-        input = prompt + "/n" + criticize
+        evaluation = "**Evaluation**" + evaluation
+        input = prompt + "/n" + evaluation
         new_prompt = self.prompt_improver.get_text_response(input)
         return new_prompt
     
-    def add_new_prompt_to_data(self, keywords, prompt):
-        self.prompter_finetune.add_new_data(keywords, prompt)
+    def add_new_prompt_to_data(self, user_input, prompt):
+        self.prompter_finetune.add_new_data(user_input, prompt)
         data_count = self.prompter_finetune.count_data()
         if data_count > data_count_upper_limit:
-            self.prompter_finetune.delete_old_data(self, data_count - data_count_upper_limit)
+            self.prompter_finetune.delete_old_data(data_count - data_count_upper_limit)
             
 
             

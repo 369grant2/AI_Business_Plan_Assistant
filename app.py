@@ -173,8 +173,7 @@ if st.button("Generate Business Plan"):
             "geographical_location": st.session_state['geographical_location'],
             "product_service_description": st.session_state['product_service_description'],
             "key_features": st.session_state['key_features'],
-            "key_benefits": st.session_state['key_benefits'],
-            "business_plan": st.session_state['business_plan']
+            "key_benefits": st.session_state['key_benefits']
         }
         response = requests.post(backend_url, json=data_to_send)
         if response.status_code == 200:

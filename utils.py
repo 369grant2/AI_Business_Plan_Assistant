@@ -32,3 +32,11 @@ def read_csv_pairs(csv_path, jsonl_path):
         
         with open(jsonl_path, 'w', encoding='utf-8') as jsonlfile:
             jsonlfile.write(jsonl_content)
+            
+def read_user_inputs(file_path):
+    user_inputs = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        json_lines = [json.loads(line) for line in file]
+    for line in json_lines:
+        user_inputs.append(line["messages"][1]["content"])
+    return user_inputs

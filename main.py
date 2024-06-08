@@ -1,6 +1,8 @@
+import subprocess
+import time
+
 from src.cook_raw import Cook
-from src.architect import Architect
-from src.LLM_tune import LLM_tune
+from src.train import Train
 
 from config import *
 from utils import *
@@ -8,10 +10,16 @@ from utils import *
 def main():
     # cook = Cook()
     # cook.retrieve_finetuning_pairs()
-    LLM_Tune = LLM_tune(prompt_generator_model)
-    LLM_Tune.finetune()
     # train = Train()
-    # train.finetune_prompter()
+    # train.run()
+    
+    process_UI = subprocess.Popen(["streamlit", "run", "app.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process_backend = subprocess.Popen(["python3", "backend.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+    while (process_UI.poll() is None) and (process_backend.poll() is None):
+        print("Program operating")
+        time.sleep(1)
+    
         
 if __name__ == "__main__":
     main()

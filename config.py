@@ -1,5 +1,7 @@
 ### OpenAI config ###
-OPENAI_API_KEY = 'sk-proj-5A8A0eIzDWzYad341zRfT3BlbkFJyGCBb1KLN8hj5bmM9c9a'
+OPENAI_API_KEY = 'sk-proj-5A8A0eIzDWzYad341zRfT3BlbkFJyGCBb1KLN8hj5bmM9c9a' #VLDB api
+# OPENAI_API_KEY = 'sk-proj-eCFiJNXyQxC53wcV5zSbT3BlbkFJ1bT9HjIQoBa1H7ZUNZtS' #P4DS api
+# OPENAI_API_KEY = 'sk-proj-FmlT6SBnAQd2s3HTPGopT3BlbkFJTIr6IrdatEV93x6NsmY2' # Ghita
 embedding_model = "text-embedding-3-small"
 embedding_dim = 1536
 ### OpenAI config ###
@@ -25,22 +27,29 @@ market_DB_name = "market"
 
 ### LLM config ###
 prompt_generator_model = "gpt-3.5-turbo-0125"
-businese_plan_writer_model = "gpt-4o"
-businese_plan_referee_model = "gpt-4o"
-prompt_improver_model = "gpt-4o"
+businese_plan_writer_model = "gpt-3.5-turbo-0125"
+businese_plan_referee_model = "gpt-3.5-turbo-0125"
+prompt_improver_model = "gpt-3.5-turbo-0125" #"gpt-4o"
 LLM_temperature = 0.9
+LLM_max_tokens = 1000
 ### LLM config ###
 
 ### Prompt data config ###
 training_data = "./dat/train.jsonl"
-data_count_upper_limit = 100
+data_count_upper_limit = 18
 ### Prompt data config ###
 
-### Training config ###
+### Finetuning config ###
 finetuned_model_path = "./mdl/prompter.txt"
 n_epochs = 1
 batch_size = 32
 learning_rate_multiplier = 0.5
+### Finetuning config ###
+
+### Training config ###
+load_previous_model = False
+iteration = 10
+finetune_period = 5
 ### Training config ###
 
 ### Prompt_generator config ###
