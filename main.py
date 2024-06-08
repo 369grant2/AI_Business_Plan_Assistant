@@ -1,5 +1,5 @@
 from src.cook_raw import Cook
-from src.train import Train
+from src.architect import Architect
 from src.LLM_tune import LLM_tune
 
 from config import *

@@ -6,7 +6,7 @@ from src.vectorDB import VectorDB
 from config import *
 from utils import *
 
-class Train():
+class Architect():
     def __init__(self):
         cook = Cook()
         self.author_prompt = cook.retrieve_author_prompt()
