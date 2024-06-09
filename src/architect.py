@@ -16,11 +16,14 @@ class Architect():
         self.prompt_generator = LLM(self.prompter_finetune.get_model())
         
         self.businese_plan_writer = LLM(businese_plan_writer_model)
+        self.businese_plan_reviser = LLM(businese_plan_reviser_model)
         self.businese_plan_referee = LLM(businese_plan_referee_model)
         self.prompt_improver = LLM(prompt_improver_model)
         
         self.company_DB = VectorDB(company_DB_name)
         self.market_DB = VectorDB(market_DB_name)
+        
+        self.chosen_chunk = []
         
     def finetune_prompter(self):
         self.prompter_finetune.finetune()
@@ -44,13 +47,21 @@ class Architect():
         marketDB = VectorDB(market_DB_name)
         marketDB_search_result = marketDB.search_DB(prompt)
         chosen_chunk = companyDB_search_result + marketDB_search_result
+        self.chosen_chunk = chosen_chunk
         return chosen_chunk
 
     def write_businese_plan(self, prompt, chosen_chunk):
         self.businese_plan_writer.start_new_chat(self.author_sys_prompt)
         businese_plan = self.businese_plan_writer.get_text_response(
-                                        prompt, 
-                                        chosen_chunks_page=chosen_chunk)
+                                                    prompt, 
+                                                    chosen_chunks_page=chosen_chunk)
+        return businese_plan
+    
+    def revise_businese_plan(self, businese_plan, suggestion):
+        self.businese_plan_reviser.start_new_chat(reviser_sys_prompt + suggestion)
+        businese_plan = self.businese_plan_reviser.get_text_response(
+                                                    businese_plan, 
+                                                    chosen_chunks_page=self.chosen_chunk)
         return businese_plan
     
     def evaluate_businese_plan(self, businese_plan, chosen_chunk):

@@ -24,9 +24,18 @@ class Inference():
             Key Benefits: {data['key_benefits']}
             """
         return user_input
+    
+    def user_suggestion_to_text(self, data):
+        businese_plan = data["business_plan"]
+        suggestion = data["revise_request"]
+        return businese_plan, suggestion
         
     def write_BP(self, user_input):
         prompt = self.architect.make_prompt(user_input)
         chosen_chunk = self.architect.retrieval(prompt)
         businese_plan = self.architect.write_businese_plan(prompt, chosen_chunk)
+        return businese_plan
+    
+    def revise_BP(self, businese_plan, suggestion):
+        businese_plan = self.architect.revise_businese_plan(businese_plan, suggestion)
         return businese_plan

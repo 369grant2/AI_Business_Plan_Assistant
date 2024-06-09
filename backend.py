@@ -11,8 +11,12 @@ class MyFlaskApp:
         @self.app.route('/receive-data', methods=['POST'])
         def receive_data():
             data = request.json
-            user_input = self.model.user_input_data_to_text(data)
-            business_plan = self.model.write_BP(user_input)
+            if "business_plan" not in data: # Regular BP wrtie
+                user_input = self.model.user_input_data_to_text(data)
+                business_plan = self.model.write_BP(user_input)
+            else: # Revise BP wrtie
+                business_plan, suggestion = self.model.user_suggestion_to_text(data)
+                business_plan = self.model.revise_BP(business_plan, suggestion)
             processed_data = {
                 "message": "Data processed successfully",
                 "received_data": business_plan

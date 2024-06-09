@@ -1,5 +1,5 @@
 ### OpenAI config ###
-OPENAI_API_KEY = 'sk-proj-5A8A0eIzDWzYad341zRfT3BlbkFJyGCBb1KLN8hj5bmM9c9a' #VLDB api
+OPENAI_API_KEY = 'sk-proj-rd6WrBE3V8eGfpRhvvMIT3BlbkFJ2kq46UUMe045E9ecn6xY' #VLDB api
 # OPENAI_API_KEY = 'sk-proj-eCFiJNXyQxC53wcV5zSbT3BlbkFJ1bT9HjIQoBa1H7ZUNZtS' #P4DS api
 # OPENAI_API_KEY = 'sk-proj-FmlT6SBnAQd2s3HTPGopT3BlbkFJTIr6IrdatEV93x6NsmY2' # Ghita
 embedding_model = "text-embedding-3-small"
@@ -28,6 +28,7 @@ market_DB_name = "market"
 ### LLM config ###
 prompt_generator_model = "gpt-3.5-turbo-0125"
 businese_plan_writer_model = "gpt-3.5-turbo-0125"
+businese_plan_reviser_model = "gpt-3.5-turbo-0125"
 businese_plan_referee_model = "gpt-3.5-turbo-0125"
 prompt_improver_model = "gpt-3.5-turbo-0125" #"gpt-4o"
 LLM_temperature = 0.9
@@ -63,3 +64,7 @@ prompt_improver_system_prompt = \
      Previous prompt is started with **Prompt**, \
      and the evaluation is start with **Evaluation**."
 ### prompt improver config ###
+
+### BP revisor config ###
+reviser_sys_prompt = "Revise original plan with following suggestion: "
+### BP revisor config ###

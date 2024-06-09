@@ -30,6 +30,8 @@ if 'key_benefits' not in st.session_state:
     st.session_state['key_benefits'] = ''
 if 'business_plan' not in st.session_state:
     st.session_state['business_plan'] = ''
+if 'revise_request' not in st.session_state:
+    st.session_state['revise_request'] = ''
 
 # Function to reset all input fields
 def reset_outputs():
@@ -47,6 +49,7 @@ def reset_outputs():
     # st.session_state['key_features'] = ''
     # st.session_state['key_benefits'] = ''
     st.session_state['business_plan'] = ''
+    st.session_state['revise_request'] = ''
 
 # 主標題
 st.title("Business Plan Assistant")
@@ -183,6 +186,37 @@ if st.button("Generate Business Plan"):
             st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['business_plan']}</div>", unsafe_allow_html=True)
         else:
             st.error("Failed to send data to backend")
+
+def check_BP_already(activate = True):
+    flag = True
+    required_fields = [
+        'business_plan'
+    ]
+    for field in required_fields:
+        if not st.session_state[field]:
+            st.warning(f"{field.replace('_', ' ').title()} is necessary.")
+            flag = False
+    if activate:
+        return flag
+    else:
+        return True
+
+st.session_state['revise_request'] = st.text_input("Please enter your revise request below:",
+                                                    placeholder="Enter revise request")
+
+if st.button("Revise Business Plan"):
+    if check_BP_already(activate = False):
+        backend_url = "http://localhost:5000/receive-data"  # Flask API endpoint
+        data_to_send = {
+            "business_plan": st.session_state['business_plan'],
+            "revise_request": st.session_state['revise_request']
+        }
+        response = requests.post(backend_url, json=data_to_send)
+        if response.status_code == 200:
+            response_data = response.json()
+            st.session_state['business_plan'] = response_data["received_data"]
+            st.subheader("Business Plan")
+            st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['business_plan']}</div>", unsafe_allow_html=True)
 
 if st.button("Start Over"):
     reset_outputs()
