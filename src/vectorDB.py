@@ -41,10 +41,12 @@ class VectorDB():
                 print(f"Index {self.DB_name} already exists.")
             else:
                 raise e
+        PineconeVectorStore.from_documents(data, self.embeddings, index_name=self.DB_name)
+        
+    def reset_DB(self):
         docsearch = PineconeVectorStore.from_existing_index(
                 index_name=self.DB_name, embedding=self.embeddings)
         docsearch.delete(delete_all = True)
-        PineconeVectorStore.from_documents(data, self.embeddings, index_name=self.DB_name)
 
     def search_DB(self, query):
         docsearch = PineconeVectorStore.from_existing_index(

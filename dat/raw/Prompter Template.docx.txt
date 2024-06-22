@@ -1,20 +1,4 @@
-﻿User-provided input:
-- Business Idea: {business_idea}
-- Problem Statement/Pain Point: {problem_statement}
-- Goals and Scope: {goal}
-- Management Team/Expertise: {management_team_details}
-- Business Structure: {business_structure}
-- Unique Value Proposition (Optional): {unique_value_proposition}
-- Industry Description: {industry_description}
-- Demographics of Target Market (Optional): {target_market_demographics}
-- Geographical Location of Target Market (Optional): {target_market_location}
-- Product/Service Description: {product_service_description}
-- Key Features (Optional): {key_features}
-- Key Benefits (Optional): {key_benefits}
-
-
-Please write a business plan with the following sections: Executive Summary, Business Description, Market Analysis, and Product/Service Design. Use the provided user input and follow the specified guidelines for content generation. For each section, ideal characteristics are included to aid the generation of the business plan.
-
+﻿According to the above infor, write a prompt in this format:
 
 **Executive Summary**
 

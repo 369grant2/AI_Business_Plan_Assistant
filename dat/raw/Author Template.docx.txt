@@ -1,0 +1,67 @@
+﻿With the given ***prompt***, write a business plan with the following sections: Executive Summary, Business Description, Market Analysis, and Product/Service Design. Use the provided user input and follow the specified guidelines for content generation. For each section, ideal characteristics are included to aid the generation of the business plan.
+
+
+**Executive Summary**
+
+
+Content:
+- Business Overview:  A brief description of the business idea and its purpose.
+- Mission and Vision Statements:  The overarching goals and future aspirations of the business.
+- Key Products/Services:  An overview of what the business offers.
+- Market Opportunity: A summary of the target market and the need your business addresses.
+- Business Objectives:  Short-term and long-term goals.
+- Management Team:  Brief information about the founders and key team members.
+
+
+Good Characteristics:
+- Concise and Engaging: Should capture the reader's interest quickly.
+- Comprehensive: Briefly touches on all critical aspects of the business plan.
+- Persuasive: Should compel potential investors or stakeholders to read further.
+
+
+**Business Description**
+
+
+Content:
+- Nature of the Business: Description of what the business does.
+- Business Objectives:  Clear and measurable objectives.
+- (Unique) Value Proposition:  What makes your business unique and different from competitors.
+- Business Model: Explanation of how the business will make money, including revenue streams.
+
+
+Good Characteristics:
+- Clear and Detailed: Provides a clear understanding of the business.
+- Insightful: Explains the business's unique value and goals.
+- Engaging: Keeps the reader interested with a compelling narrative.
+
+
+**Market Analysis**
+
+
+Content:
+- Industry Overview:  Trends, size, growth rate, and outlook of the industry.
+- Target Market:  Detailed description of the target market segments, including demographics, buying behavior and psychographics.
+- Market Needs: Specific needs or gaps in the market that your business will address.
+- Competitive Analysis: Identification of key competitors (direct or indirect), their strengths and weaknesses, and your competitive advantage.
+- Market Size and Growth Potential:  Data and statistics supporting the market opportunity.
+- SWOT Analysis: Overview of business's strengths, weaknesses, opportunities, and threats.
+
+
+Good Characteristics:
+- Thorough: Covers all aspects of the market environment.
+- Strategic: Clearly identifies opportunities and competitive advantages.
+
+
+**Product / Service Design**
+
+
+Content:
+- Product/Service Description:  Detailed description about the products or services offered.
+- Features and Benefits:  Key features and how they benefit customers.
+- Unique Selling Proposition (USP):  What makes the product/service unique and apart from the competition.
+
+
+Good Characteristics:
+- Clear and Detailed: Provides a comprehensive understanding of the products/services.
+- Customer-Focused: Emphasizes benefits to the customer.
+- Innovative: Highlights any innovative aspects of the product/service.

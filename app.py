@@ -181,9 +181,12 @@ if st.button("Generate Business Plan"):
         response = requests.post(backend_url, json=data_to_send)
         if response.status_code == 200:
             response_data = response.json()
-            st.session_state['business_plan'] = response_data["received_data"]
+            st.session_state['business_plan'] = response_data["business_plan"]
+            st.session_state['evaluation'] = response_data["evaluation"]
             st.subheader("Business Plan")
             st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['business_plan']}</div>", unsafe_allow_html=True)
+            st.subheader("Plan Evaluation")
+            st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['evaluation']}</div>", unsafe_allow_html=True)
         else:
             st.error("Failed to send data to backend")
 
@@ -214,10 +217,14 @@ if st.button("Revise Business Plan"):
         response = requests.post(backend_url, json=data_to_send)
         if response.status_code == 200:
             response_data = response.json()
-            st.session_state['business_plan'] = response_data["received_data"]
+            st.session_state['business_plan'] = response_data["business_plan"]
+            st.session_state['evaluation'] = response_data["evaluation"]
             st.subheader("Business Plan")
             st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['business_plan']}</div>", unsafe_allow_html=True)
-
+            st.subheader("Plan Evaluation")
+            st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['evaluation']}</div>", unsafe_allow_html=True)
+        else:
+            st.error("Failed to send data to backend")
 if st.button("Start Over"):
     reset_outputs()
 st.markdown("</div>", unsafe_allow_html=True)

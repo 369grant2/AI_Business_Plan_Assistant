@@ -9,11 +9,12 @@ from utils import *
 class Architect():
     def __init__(self):
         cook = Cook()
+        self.prompter_sys_prompt = cook.retrieve_prompter_prompt()
         self.author_sys_prompt = cook.retrieve_author_prompt()
         self.referee_sys_prompt = cook.retrieve_referee_prompt()
         
         self.prompter_finetune = LLM_tune(prompt_generator_model)
-        self.prompt_generator = LLM(self.prompter_finetune.get_model())
+        self.prompt_generator = LLM(self.prompter_finetune.get_model_init())
         
         self.businese_plan_writer = LLM(businese_plan_writer_model)
         self.businese_plan_reviser = LLM(businese_plan_reviser_model)
@@ -37,8 +38,8 @@ class Architect():
         self.prompter_finetune.save_model(finetuned_model_path)
         
     def make_prompt(self, user_input):
-        self.prompt_generator.start_new_chat(prompt_generator_system_prompt)
-        prompt = self.prompt_generator.get_text_response(user_input)
+        self.prompt_generator.start_new_chat("Write the prompt based on the input and given format")
+        prompt = self.prompt_generator.get_text_response(user_input + self.prompter_sys_prompt)
         return prompt
     
     def retrieval(self, prompt):
@@ -51,31 +52,33 @@ class Architect():
         return chosen_chunk
 
     def write_businese_plan(self, prompt, chosen_chunk):
-        self.businese_plan_writer.start_new_chat(self.author_sys_prompt)
-        businese_plan = self.businese_plan_writer.get_text_response(
-                                                    prompt, 
+        self.businese_plan_writer.start_new_chat("Write businese plan")
+        businese_plan = self.businese_plan_writer.get_text_response(self.author_sys_prompt +
+                                                    "***prompt***\n" + prompt, 
                                                     chosen_chunks_page=chosen_chunk)
         return businese_plan
     
     def revise_businese_plan(self, businese_plan, suggestion):
-        self.businese_plan_reviser.start_new_chat(reviser_sys_prompt + suggestion)
-        businese_plan = self.businese_plan_reviser.get_text_response(
-                                                    businese_plan, 
+        self.businese_plan_reviser.start_new_chat("Revise businese plan")
+        businese_plan = self.businese_plan_reviser.get_text_response(reviser_sys_prompt +
+                                                    "***suggestion***\n" + suggestion + 
+                                                    "***business plan***\n" + businese_plan, 
                                                     chosen_chunks_page=self.chosen_chunk)
         return businese_plan
     
     def evaluate_businese_plan(self, businese_plan, chosen_chunk):
-        self.businese_plan_referee.start_new_chat(self.referee_sys_prompt)
-        evaluation = self.businese_plan_referee.get_text_response(
-                                               businese_plan, 
+        self.businese_plan_referee.start_new_chat("Make evaluation")
+        evaluation = self.businese_plan_referee.get_text_response(self.referee_sys_prompt +
+                                               "***business plan***\n" + businese_plan, 
                                                chosen_chunks_page=chosen_chunk)
         return evaluation
     
     def make_new_prompt(self, evaluation, prompt):
-        self.prompt_improver.start_new_chat(prompt_improver_system_prompt)
+        self.prompt_improver.start_new_chat("Improve the prompt")
+        sys = prompt_improver_system_prompt
         prompt = "**Prompt**" + prompt
         evaluation = "**Evaluation**" + evaluation
-        input = prompt + "/n" + evaluation
+        input = sys + prompt + evaluation
         new_prompt = self.prompt_improver.get_text_response(input)
         return new_prompt
     

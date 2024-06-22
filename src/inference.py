@@ -36,6 +36,12 @@ class Inference():
         businese_plan = self.architect.write_businese_plan(prompt, chosen_chunk)
         return businese_plan
     
+    def evaluate_BP(self, businese_plan, user_input):
+        prompt = self.architect.make_prompt(user_input)
+        chosen_chunk = self.architect.retrieval(prompt)
+        evaluation = self.architect.evaluate_businese_plan(businese_plan, chosen_chunk)
+        return evaluation
+    
     def revise_BP(self, businese_plan, suggestion):
         businese_plan = self.architect.revise_businese_plan(businese_plan, suggestion)
         return businese_plan

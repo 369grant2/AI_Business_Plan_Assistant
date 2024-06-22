@@ -1,4 +1,4 @@
-﻿Evaluate the following business plan based on the criteria provided. For each criterion, provide a score from 0 to 3 (0:weak, 1:moderate, 2:strong, 3:exceptional). Include detailed comments explaining the reasons for the score and suggestions for improvement. Utilize retrieved data from similar documents to enhance the evaluation where applicable.
+﻿Evaluate the following ***business plan*** based on the criteria provided. For each criterion, provide a score from 0 to 3 (0:weak, 1:moderate, 2:strong, 3:exceptional). Include detailed comments explaining the reasons for the score and suggestions for improvement. Utilize retrieved data from similar documents to enhance the evaluation where applicable.
 1. SWOT Analysis:
 Criteria: Evaluate the SWOT analysis considering the strengths, weaknesses, opportunities, and threats relevant to the business.
 Instructions:

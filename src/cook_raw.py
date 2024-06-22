@@ -6,8 +6,12 @@ class Cook():
         self.company_data = company_data
         self.finetuning_data = finetuning_data
         self.market_data = market_data
+        self.prompter_prompt = prompter_prompt
         self.author_prompt = author_prompt
         self.referee_prompt = referee_prompt
+        
+    def retrieve_prompter_prompt(self):
+        return read_txt_file(self.prompter_prompt)
         
     def retrieve_author_prompt(self):
         return read_txt_file(self.author_prompt)

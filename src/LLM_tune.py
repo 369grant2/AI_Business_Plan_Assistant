@@ -13,6 +13,7 @@ class LLM_tune():
         self.model = model
         
     def finetune(self):
+        print("Tuning model: ", self.model)
         self.training_file = self.client.files.create(file=open(training_data, "rb"), purpose="fine-tune")
         self.response = self.client.fine_tuning.jobs.create(
             model=self.model,
@@ -38,6 +39,7 @@ class LLM_tune():
             print("Fine-tuning failed.")
             
     def get_status(self):
+        self.response = self.client.fine_tuning.jobs.retrieve(self.id)
         try:
             return self.response.status
         except AttributeError:
@@ -49,8 +51,11 @@ class LLM_tune():
             print("Using finetuned model")
             return self.response.fine_tuned_model
         else:
-            print("Using default model")
-            return self.model
+            print("Using previous model")
+            return self.load_model(finetuned_model_path)
+        
+    def get_model_init(self):
+        return self.model
         
     def load_model(self, filename):
         with open(filename, 'r', encoding='utf-8') as file:
@@ -64,15 +69,22 @@ class LLM_tune():
             print("Model saved to ", filename)
 
     def add_new_data(self, prompt, completion):
+        with open(training_data, 'r', encoding='utf-8') as file:
+            existing_data = [line for line in file]
+            
         new_data = {
-                "messages": [
-                    {"role": "system", "content": ""},
-                    {"role": "user", "content": prompt},
-                    {"role": "assistant", "content": completion}
-                ]
-            }
-        with open(training_data, 'a', encoding='utf-8') as file:
-            file.write(json.dumps(new_data) + '\n')
+            "messages": [
+                {"role": "system", "content": ""},
+                {"role": "user", "content": prompt},
+                {"role": "assistant", "content": completion}
+            ]
+        }
+        existing_data.append('\n' + json.dumps(new_data))
+        
+        jsonl_content = ''.join(existing_data)
+        
+        with open(training_data, 'w', encoding='utf-8') as jsonlfile:
+            jsonlfile.write(jsonl_content)
 
     def count_data(self):
         try:
@@ -87,9 +99,10 @@ class LLM_tune():
 
     def delete_old_data(self, cnt):
         with open(training_data, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
+            existing_data = [line for line in file]
 
-        remaining_lines = lines[cnt:]
-
-        with open(training_data, 'w', encoding='utf-8') as file:
-            file.writelines(remaining_lines)
+        remaining_lines = existing_data[cnt:]
+        jsonl_content = ''.join(remaining_lines)
+        
+        with open(training_data, 'w', encoding='utf-8') as jsonlfile:
+            jsonlfile.write(jsonl_content)

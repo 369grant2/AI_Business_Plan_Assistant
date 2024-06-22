@@ -30,8 +30,9 @@ def read_csv_pairs(csv_path, jsonl_path):
         
         jsonl_content = '\n'.join(jsonl_lines)
         
-        with open(jsonl_path, 'w', encoding='utf-8') as jsonlfile:
-            jsonlfile.write(jsonl_content)
+    with open(jsonl_path, 'w', encoding='utf-8') as jsonlfile:
+        jsonlfile.write(jsonl_content)
+
             
 def read_user_inputs(file_path):
     user_inputs = []
@@ -40,3 +41,26 @@ def read_user_inputs(file_path):
     for line in json_lines:
         user_inputs.append(line["messages"][1]["content"])
     return user_inputs
+
+def read_prompts(file_path):
+    prompts = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        json_lines = [json.loads(line) for line in file]
+    for line in json_lines:
+        prompts.append(line["messages"][2]["content"])
+    return prompts
+
+expected_structure = {
+    "messages": [
+        {"role": "system", "content": ""},
+        {"role": "user", "content": ""},
+        {"role": "assistant", "content": ""}
+    ]
+}
+
+def validate_structure(data_item, expected_structure):
+    if isinstance(data_item, dict) and isinstance(expected_structure, dict):
+        return set(data_item.keys()) == set(expected_structure.keys())
+    if isinstance(data_item, list) and isinstance(expected_structure, list):
+        return all(validate_structure(i, expected_structure[0]) for i in data_item)
+    return False
