@@ -1,5 +1,7 @@
 ### OpenAI config ###
-
+# OPENAI_API_KEY = 'sk-proj-YXOAOrQbDm2tuZKJX0GyT3BlbkFJmrgUxHm8KczUOWiZNXd4' #VLDB api
+OPENAI_API_KEY = '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' #P4DS api
+# OPENAI_API_KEY = 'sk-proj-FmlT6SBnAQd2s3HTPGopT3BlbkFJTIr6IrdatEV93x6NsmY2' # Ghita
 embedding_model = "text-embedding-3-small"
 embedding_dim = 1536
 ### OpenAI config ###
