@@ -39,15 +39,15 @@ st.markdown("""
             color: black !important;
         }
         input, textarea {
-            color: black !important; /* Set the text color to black */
+            color: #808080 !important; /* Set the text color to black */
         }
 
         input::placeholder, textarea::placeholder {
-            color: black !important; /* Ensure all placeholders are black */
+            color: #808080 !important; /* Ensure all placeholders are black */
             opacity: 1 !important; /* Make sure placeholders are fully visible */
         }
         div[data-baseweb="select"] .st-bc {
-            color: black !important; /* Override to set text color to black */
+            color: #808080 !important; /* Override to set text color to black */
         }
         div.stTextInput > label, 
         div.stTextArea > label,  
