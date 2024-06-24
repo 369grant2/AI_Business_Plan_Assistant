@@ -9,8 +9,8 @@ from config import *
 from utils import *
 
 def main():
-    cook = Cook()
-    cook.retrieve_finetuning_pairs()
+    # cook = Cook()
+    # cook.retrieve_finetuning_pairs()
     # company_data = cook.retrieve_company_data()
     # market_data = cook.retrieve_market_data()
     
@@ -21,15 +21,15 @@ def main():
     # market_DB.reset_DB()
     # market_DB.create_DB(market_data)
     
-    train = Train()
-    train.run()
+    # train = Train()
+    # train.run()
 
-    # process_UI = subprocess.Popen(["streamlit", "run", "app.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # process_backend = subprocess.Popen(["python3", "backend.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process_UI = subprocess.Popen(["streamlit", "run", "app.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process_backend = subprocess.Popen(["python3", "backend.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-    # while (process_UI.poll() is None) and (process_backend.poll() is None):
-    #     print("Program operating")
-    #     time.sleep(1)
+    while (process_UI.poll() is None) and (process_backend.poll() is None):
+        print("Program operating")
+        time.sleep(10)
     
         
 if __name__ == "__main__":

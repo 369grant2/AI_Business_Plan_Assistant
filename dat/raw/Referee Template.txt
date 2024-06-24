@@ -61,3 +61,5 @@ Factors to Consider:
 Comments and Suggestions for Improvement:
 * Provide insights into how the business can improve its competitive positioning.
 * Suggest strategies to leverage competitive advantages and mitigate threats from competitors.
+6. Summary:
+* Sum up the evaluation score from 1-5 and write down in the format Total_score=

@@ -1,4 +1,4 @@
-
+import re
 import csv
 import json
 from langchain_community.document_loaders.csv_loader import CSVLoader
@@ -64,3 +64,11 @@ def validate_structure(data_item, expected_structure):
     if isinstance(data_item, list) and isinstance(expected_structure, list):
         return all(validate_structure(i, expected_structure[0]) for i in data_item)
     return False
+
+def extract_total_score(evlaution):
+    match = re.search(r'Total_score=\s*(\d+)', evlaution)
+    if match:
+        total_score = int(match.group(1))
+    else:
+        total_score = 0
+    return total_score
