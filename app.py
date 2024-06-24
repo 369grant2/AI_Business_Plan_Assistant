@@ -1,6 +1,71 @@
 import streamlit as st
 import requests
 
+# Page configuration
+st.set_page_config(
+    page_title="AI Business Plan Assistant",
+    page_icon="📈",
+    initial_sidebar_state="expanded",
+)
+
+# CSS for the background image
+background_image = """
+<style>
+[data-testid="stAppViewContainer"] > .main {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.6), /* This is the grey overlay; the last number is the opacity level */
+        rgba(0, 0, 0, 0.5)
+    ), url("https://images.unsplash.com/photo-1600712365047-26f7a4f04d44?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: 100vw 100vh; 
+    background-position: center;  
+    background-repeat: no-repeat;
+}
+</style>
+"""
+st.markdown(background_image, unsafe_allow_html=True)
+
+# Custom CSS for the rest
+st.markdown("""
+    <style>
+        .header {
+            text-align: center;
+            color: white;
+        }
+        .subheader {
+            color: white !important;
+        }
+        .stButton > button {
+            background-color: white;
+            color: black !important;
+        }
+        input, textarea {
+            color: #808080 !important; /* Set the text color to black */
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #808080 !important; /* Ensure all placeholders are black */
+            opacity: 1 !important; /* Make sure placeholders are fully visible */
+        }
+        div[data-baseweb="select"] .st-bc {
+            color: #808080 !important; /* Override to set text color to black */
+        }
+        div.stTextInput > label, 
+        div.stTextArea > label,  
+        div.stNumberInput > label,
+        div.stExpander > label
+        div.stRadio > label {
+            color: white !important; /* Change color of the input labels */
+        }
+       
+    </style>
+""", unsafe_allow_html=True)
+
+# Add logo
+col1, col2, col3 = st.columns([2,2,1])
+with col2:
+    st.image("BP.png", width=150) 
+
+
 # Initialize session state to store inputs and the generated business plan
 if 'business_overview' not in st.session_state:
     st.session_state['business_overview'] = ''
@@ -51,14 +116,14 @@ def reset_outputs():
     st.session_state['business_plan'] = ''
     st.session_state['revise_request'] = ''
 
-# 主標題
-st.title("Business Plan Assistant")
+# Main title with custom styling
+st.markdown("<h1 class='header'>Business Plan Assistant</h1>", unsafe_allow_html=True)
 
 # Executive Summary
-st.header("Executive Summary")
+st.markdown("<h2 class='subheader'>Executive Summary</h2>", unsafe_allow_html=True)
 
 # Business Overview
-st.subheader("Business Overview")
+st.markdown("<h3 class='subheader'>Business Overview</h3>", unsafe_allow_html=True)
 st.session_state['business_overview'] = st.text_input("Brief Description of Business Idea", 
                                                       placeholder="Enter the business idea", 
                                                       value=st.session_state['business_overview'])
@@ -69,16 +134,17 @@ st.session_state['problem_statement'] = st.text_input("Problem Statement / Pain 
                                                       value=st.session_state['problem_statement'])
 
 # Mission and Vision Statements
-st.subheader("Mission and Vision Statements")
+st.markdown("<h3 class='subheader'>Mission and Vision Statements</h3>", unsafe_allow_html=True)
 st.session_state['mission_vision_statements'] = st.text_input("Goals and Future Aspirations of the Business", 
                                                               placeholder="Enter the goals and future aspirations", 
                                                               value=st.session_state['mission_vision_statements'])
 
 # Management Team
-st.subheader("Management Team")
+st.markdown("<h3 class='subheader'>Management Team</h3>", unsafe_allow_html=True)
 st.session_state['number_of_team_members'] = st.number_input("Number of Team Members", min_value=1, step=1, 
                                                              value=st.session_state['number_of_team_members'])
 
+# Sliding team members
 for i in range(1, st.session_state['number_of_team_members'] + 1):
     if len(st.session_state['team_members']) < i:
         st.session_state['team_members'].append({
@@ -87,22 +153,22 @@ for i in range(1, st.session_state['number_of_team_members'] + 1):
             "education": '',
             "expertise": ''
         })
-    st.subheader(f"Team Member {i}")
-    st.session_state['team_members'][i-1]['name'] = st.text_input(f"Name of Member {i}", 
-                                                                   placeholder="Enter name", 
-                                                                   value=st.session_state['team_members'][i-1]['name'])
-    st.session_state['team_members'][i-1]['role'] = st.text_input(f"Role of Member {i}", 
-                                                                   placeholder="Enter role", 
-                                                                   value=st.session_state['team_members'][i-1]['role'])
-    st.session_state['team_members'][i-1]['education'] = st.text_input(f"Education / Qualification of Member {i}", 
-                                                                        placeholder="Enter education or qualification", 
-                                                                        value=st.session_state['team_members'][i-1]['education'])
-    st.session_state['team_members'][i-1]['expertise'] = st.text_input(f"Expertise / Domain Knowledge of Member {i}", 
-                                                                        placeholder="Enter expertise or domain knowledge", 
-                                                                        value=st.session_state['team_members'][i-1]['expertise'])
+    with st.expander(f"Team Member {i}"):
+        st.session_state['team_members'][i-1]['name'] = st.text_input(f"Name of Member {i}", 
+                                                                       placeholder="Enter name", 
+                                                                       value=st.session_state['team_members'][i-1]['name'])
+        st.session_state['team_members'][i-1]['role'] = st.text_input(f"Role of Member {i}", 
+                                                                       placeholder="Enter role", 
+                                                                       value=st.session_state['team_members'][i-1]['role'])
+        st.session_state['team_members'][i-1]['education'] = st.text_input(f"Education / Qualification of Member {i}", 
+                                                                            placeholder="Enter education or qualification", 
+                                                                            value=st.session_state['team_members'][i-1]['education'])
+        st.session_state['team_members'][i-1]['expertise'] = st.text_input(f"Expertise / Domain Knowledge of Member {i}", 
+                                                                            placeholder="Enter expertise or domain knowledge", 
+                                                                            value=st.session_state['team_members'][i-1]['expertise'])
 
 # Business Description
-st.header("Business Description")
+st.markdown("<h2 class='subheader'>Business Description</h2>", unsafe_allow_html=True)
 
 st.session_state['business_structure'] = st.selectbox("Business Structure", ["B2B", "B2C", "C2C"], 
                                                       index=["B2B", "B2C", "C2C"].index(st.session_state['business_structure']))
@@ -111,7 +177,7 @@ st.session_state['unique_value_proposition'] = st.text_input("Unique Value Propo
                                                              value=st.session_state['unique_value_proposition'])
 
 # Market Analysis
-st.header("Market Analysis")
+st.markdown("<h2 class='subheader'>Market Analysis</h2>", unsafe_allow_html=True)
 
 st.session_state['industry_description'] = st.text_input("Industry Description", 
                                                          placeholder="Overview of the industry", 
@@ -124,7 +190,7 @@ st.session_state['geographical_location'] = st.text_input("Geographical Location
                                                           value=st.session_state['geographical_location'])
 
 # Product / Service Design
-st.header("Product / Service Design")
+st.markdown("<h2 class='subheader'>Product / Service Design</h2>", unsafe_allow_html=True)
 
 st.session_state['product_service_description'] = st.text_input("Product / Service Description", 
                                                                 placeholder="Description of product or service", 
@@ -204,8 +270,8 @@ def check_BP_already(activate = True):
     else:
         return True
 
-st.session_state['revise_request'] = st.text_input("Please enter your revise request below:",
-                                                    placeholder="Enter revise request")
+st.session_state['revise_request'] = st.text_input("Please enter your revision request below:",
+                                                    placeholder="Enter revision request")
 
 if st.button("Revise Business Plan"):
     if check_BP_already(activate = False):
@@ -225,9 +291,10 @@ if st.button("Revise Business Plan"):
             st.markdown(f"<div style='border-radius: 15px; border: 1px solid #e6e6e6; padding: 20px;'>{st.session_state['evaluation']}</div>", unsafe_allow_html=True)
         else:
             st.error("Failed to send data to backend")
+
 if st.button("Start Over"):
     reset_outputs()
 st.markdown("</div>", unsafe_allow_html=True)
 
 # Credit centered at the bottom
-st.markdown("<div style='text-align: center;'>© 2024 Gihyun Lee, Ghita Benboubker, Chen Bo Han. All rights reserved.</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center;'>© 2024 Chen Bo Han, Gihyun Lee, Ghita Benboubker. All rights reserved.</div>", unsafe_allow_html=True)
