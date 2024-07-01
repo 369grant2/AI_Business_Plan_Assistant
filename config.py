@@ -1,5 +1,5 @@
 ### OpenAI config ###
-OPENAI_API_KEY = "" #P4DS api
+OPENAI_API_KEY = 0 #P4DS api
 embedding_model = "text-embedding-3-small"
 embedding_dim = 1536
 ### OpenAI config ###
@@ -11,7 +11,7 @@ top_K = 20
 ### Pinecone config ###
 
 ### Raw data config ###
-company_data = "./dat/raw/Company Data - Sheet1.csv"
+company_data = "./dat/raw/Competitor Data - Tabellenblatt1.csv"
 finetuning_data = "./dat/raw/Finetuning Data.xlsx - Sheet1.csv"
 market_data = "./dat/raw/Market Data - Tabellenblatt1.csv"
 prompter_prompt = "./dat/raw/Prompter Template.docx.txt"

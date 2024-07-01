@@ -9,7 +9,7 @@ from config import *
 from utils import *
 
 def main():
-    # cook = Cook()
+    cook = Cook()
     # cook.retrieve_finetuning_pairs()
     # company_data = cook.retrieve_company_data()
     # market_data = cook.retrieve_market_data()
